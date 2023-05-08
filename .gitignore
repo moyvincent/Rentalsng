@@ -1,0 +1,17 @@
+__pycache__/
+.DS_Store
+.env
+.flaskenv
+*.pyc
+*.pyo
+env/
+venv/
+renvenv/
+.venv/
+env*
+*.db
+*.db-journals
+*.tfstate
+*.tfstate.*
+.terraform
+doc_pass.txt

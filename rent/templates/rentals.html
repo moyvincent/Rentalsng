@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Items</title>
+</head>
+<body>
+    <h1>All Items</h1>
+    {% if current_user.is_authenticated %}
+    <p>Welcome, {{ current_user.name }}!</p>
+    {% else %}
+        <p>Welcome, guest!</p>
+    {% endif %}
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Location</th>
+                <th>Photo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.title }}</td>
+                <td>{{ item.description }}</td>
+                <td>{{ item.price }}</td>
+                <td>{{ item.location }}</td>
+                <td><img src="{{ item.photo }}" alt="item photo"></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
