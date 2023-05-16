@@ -23,6 +23,24 @@ class SignupForm(FlaskForm):
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign Up')
 
+class VendorForm(FlaskForm):
+    name = StringField('Name',
+                           validators=[DataRequired(), Length(min=2, max=20)])
+    email = StringField('Email',
+                        validators=[DataRequired(), Email()])
+    phone_number = StringField('Phone',
+                           validators=[DataRequired(), Length(min=11, max=11)])
+    company_name = StringField('Company Name',
+                           validators=[DataRequired(), Length(min=2, max=50)])
+    address = StringField('Address',
+                           validators=[DataRequired(), Length(min=2, max=200)])
+    description = StringField('Description',
+                           validators=[DataRequired(), Length(min=2, max=200)])
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password',
+                                     validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Sign Up')
+
 
 class LoginForm(FlaskForm):
     email = StringField('Email',

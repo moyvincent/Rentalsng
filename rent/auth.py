@@ -1,8 +1,8 @@
 from flask import Blueprint, Flask, flash, redirect, render_template, request, url_for
 from flask_login import LoginManager, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from db import db, User
-from form import SignupForm, LoginForm
+from db import db, User, Vendor
+from form import SignupForm, LoginForm, VendorForm
 
 app = Flask(__name__)
 
@@ -21,7 +21,7 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 @auth_app.route('/signup', methods=['GET', 'POST'])
-def signup():
+def user_signup():
     form = SignupForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
@@ -32,6 +32,21 @@ def signup():
         db.session.add(new_user)
         db.session.commit()
         login_user(new_user)
+        return redirect(url_for('auth.login'))
+    return render_template('signup.html', form=form)
+
+@auth_app.route('/vendor-signup', methods=['GET', 'POST'])
+def vendor_signup():
+    form = VendorForm()
+    if form.validate_on_submit():
+        vendor = Vendor.query.filter_by(email=form.email.data).first()
+        if vendor:
+            flash('Email address already exists')
+            return redirect(url_for('auth.vendor-signup'))
+        new_vendor = Vendor(name=form.name.data, email=form.email.data, phone_number=form.phone_number.data, address=form.address.data, company_name=form.company_name.data, description=form.description.data, password=generate_password_hash(form.password.data))
+        db.session.add(new_vendor)
+        db.session.commit()
+        login_user(new_vendor)
         return redirect(url_for('auth.login'))
     return render_template('signup.html', form=form)
 
