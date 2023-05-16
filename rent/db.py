@@ -48,6 +48,7 @@ class Item(db.Model):
     photo = db.Column(db.String(255), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
+    vendor_id = db.Column(db.Integer, ForeignKey('vendors.id', name='fk_vendors'), nullable=False)
 
     # One-to-Many relationship between Rental and Booking
     booking = relationship('Booking', backref='item', lazy=True)
@@ -58,6 +59,7 @@ class Booking(db.Model):
     start_date = db.Column(db.Date, nullable=False)
     end_date = db.Column(db.Date, nullable=False)
     user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
+    vendor_id = db.Column(db.Integer, ForeignKey('vendors.id', name='fk_vendors'), nullable=False)
     item_id = db.Column(db.Integer, ForeignKey('items.id'), nullable=False)
 
     # One-to-Many relationship between Booking and User
