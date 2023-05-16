@@ -48,7 +48,7 @@ def vendor_signup():
         db.session.commit()
         login_user(new_vendor)
         return redirect(url_for('auth.login'))
-    return render_template('signup.html', form=form)
+    return render_template('vendor_signup.html', form=form)
 
 @auth_app.route('/login', methods=['GET', 'POST'])
 def login():
