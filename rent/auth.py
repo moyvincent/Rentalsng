@@ -44,7 +44,8 @@ def vendor_signup():
             flash('Email address already exists')
             return redirect(url_for('auth.vendor-signup'))
         new_vendor = Vendor(name=form.name.data, email=form.email.data, phone_number=form.phone_number.data, address=form.address.data, company_name=form.company_name.data, description=form.description.data, password=generate_password_hash(form.password.data))
-        db.session.add(new_vendor)
+        new_user = User(name=form.name.data, email=form.email.data, phone_number=form.phone_number.data, password=generate_password_hash(form.password.data))
+        db.session.add(new_vendor, new_user)
         db.session.commit()
         login_user(new_vendor)
         return redirect(url_for('auth.login'))
@@ -54,9 +55,20 @@ def vendor_signup():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user and check_password_hash(user.password, form.password.data):
-            login_user(user)
+        email = form.email.data
+        password = form.password.data
+        user_type = form.user_type.data
+
+        # Check the user type and fetch the corresponding user from the database
+        if user_type == 'user':
+            user = User.query.filter_by(email=email).first()
+        elif user_type == 'vendor':
+            user = Vendor.query.filter_by(email=email).first()
+        else:
+            user = None
+
+        if user and check_password_hash(user.password, password):
+            login_user(user, remember=form.remember.data)
             flash('Logged in successfully.')
             return redirect(url_for('items.allItems'))
         else:

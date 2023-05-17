@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField
-from wtforms import StringField, TextAreaField, FloatField, SubmitField, PasswordField, BooleanField
+from wtforms import StringField, TextAreaField, FloatField, SubmitField, PasswordField, BooleanField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 
 class ItemForm(FlaskForm):

@@ -1,7 +1,7 @@
 from flask import Blueprint, Flask, redirect, render_template, url_for
 from flask_login import current_user, login_required
 from auth import login_manager
-from db import db, Item
+from db import db, Item, Vendor
 from form import ItemForm
 import base64
 
