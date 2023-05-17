@@ -1,8 +1,8 @@
 from flask import Flask
 from flask_migrate import Migrate
-from items import items_app
-from auth import auth_app, login_manager
-from db import db
+from rent.items import items_app
+from rent.auth import auth_app, login_manager
+from rent.db import db
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
