@@ -1,8 +1,8 @@
 from flask import Blueprint, Flask, flash, redirect, render_template, request, url_for
 from flask_login import LoginManager, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from db import db, User, Vendor
-from form import SignupForm, LoginForm, VendorForm
+from rent.db import db, User
+from rent.form import SignupForm, LoginForm
 
 app = Flask(__name__)
 
@@ -35,37 +35,13 @@ def user_signup():
         return redirect(url_for('auth.login'))
     return render_template('signup.html', form=form)
 
-@auth_app.route('/vendor-signup', methods=['GET', 'POST'])
-def vendor_signup():
-    form = VendorForm()
-    if form.validate_on_submit():
-        vendor = Vendor.query.filter_by(email=form.email.data).first()
-        if vendor:
-            flash('Email address already exists')
-            return redirect(url_for('auth.vendor-signup'))
-        new_vendor = Vendor(name=form.name.data, email=form.email.data, phone_number=form.phone_number.data, address=form.address.data, company_name=form.company_name.data, description=form.description.data, password=generate_password_hash(form.password.data))
-        new_user = User(name=form.name.data, email=form.email.data, phone_number=form.phone_number.data, password=generate_password_hash(form.password.data))
-        db.session.add(new_vendor, new_user)
-        db.session.commit()
-        login_user(new_vendor)
-        return redirect(url_for('auth.login'))
-    return render_template('vendor_signup.html', form=form)
-
 @auth_app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
         email = form.email.data
         password = form.password.data
-        user_type = form.user_type.data
-
-        # Check the user type and fetch the corresponding user from the database
-        if user_type == 'user':
-            user = User.query.filter_by(email=email).first()
-        elif user_type == 'vendor':
-            user = Vendor.query.filter_by(email=email).first()
-        else:
-            user = None
+        user = User.query.filter_by(email=email).first()
 
         if user and check_password_hash(user.password, password):
             login_user(user, remember=form.remember.data)

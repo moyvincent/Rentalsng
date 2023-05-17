@@ -1,8 +1,8 @@
-"""Add is_active column to users table
+"""Initial Migration
 
-Revision ID: 5f8f87909f9f
+Revision ID: 46697f60107d
 Revises: 
-Create Date: 2023-04-18 15:20:43.978389
+Create Date: 2023-05-17 17:46:17.199108
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '5f8f87909f9f'
+revision = '46697f60107d'
 down_revision = None
 branch_labels = None
 depends_on = None
